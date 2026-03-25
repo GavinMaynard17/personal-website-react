@@ -137,7 +137,7 @@ export const apps = [
     {
         key: 0,
         name: 'Bracket Buddy',
-        image: '/logo.png',
+        image: '/bracketBuddy.png',
         link: 'bracket-buddy',
         description: 'Simple bracket tool to help you find your favorite thing!',
         progress: 'In development'
