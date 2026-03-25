@@ -210,7 +210,7 @@ const BracketBuddy = () => {
         </div>
       )}
 
-      <p className="version-number">Bracket Buddy V0.2</p>
+      <p className="version-number">Bracket Buddy v1.0</p>
     </div>
   );
 };

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const App = ({ app }) => {
 
-    if (app.progress != 'Planned'){
+    if (app.progress !== 'Planned'){
         return (
             <div className="app-box">        
                 <Link to={`/apps/${app.link}`} style={{ textDecoration: 'none', color: 'black' }}>

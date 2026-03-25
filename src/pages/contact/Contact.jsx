@@ -142,19 +142,11 @@ const Contact = () => {
 
     timerIds.push(setTimeout(() => typeText(), 1000)); // Initial delay before starting the typing effect
 
-    // Add event listener for keydown
-    if (contentEditableRef.current) {
-      contentEditableRef.current.addEventListener('keydown', handleKeyDown);
-    }
-
-    // Cleanup the event listener and timers on component unmount
+    // Cleanup timers on component unmount
     return () => {
-      if (contentEditableRef.current) {
-        contentEditableRef.current.removeEventListener('keydown', handleKeyDown);
-      }
       timerIds.forEach((id) => clearTimeout(id));
     };
-  }, [contentEditableRef]);
+  }, []);
 
   return (
     <div className="contact-container">

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './About.scss';
 import { images } from '../../data/data';
-import { Link } from 'react-router-dom';
 
 const About = () => {
   const [typedText, setTypedText] = useState('');
@@ -106,19 +105,11 @@ const About = () => {
 
     timerIds.push(setTimeout(() => typeText(), 1000)); // Initial delay before starting the typing effect
 
-    // Add event listener for keydown
-    if (contentEditableRef.current) {
-      contentEditableRef.current.addEventListener('keydown', handleKeyDown);
-    }
-
-    // Cleanup the event listener and timers on component unmount
+    // Cleanup timers on component unmount
     return () => {
-      if (contentEditableRef.current) {
-        contentEditableRef.current.removeEventListener('keydown', handleKeyDown);
-      }
       timerIds.forEach((id) => clearTimeout(id));
     };
-  }, [contentEditableRef]); // Add contentEditableRef to the dependency array
+  }, []);
 
   return (
     <div className="about-container">
