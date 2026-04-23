@@ -42,7 +42,14 @@ const Matchup = ({ match, roundIndex, winner, isSetup, advanceType, onWinnerChan
     if (isSetup) return;
     const currentWinner = winner?.id;
     const selectedId = chosen?.id;
-    onWinnerChange(roundIndex, Number(match.id.split('-')[1]), currentWinner === selectedId ? null : chosen);
+    const nextWinner = currentWinner === selectedId ? null : chosen;
+    onWinnerChange(
+      roundIndex,
+      Number(match.id.split('-')[1]),
+      nextWinner,
+      match.id,
+      Boolean(nextWinner && match.championWinnerIds?.includes(nextWinner.id))
+    );
   };
 
   const uploadImage = (participantKey, file) => {
@@ -64,7 +71,7 @@ const Matchup = ({ match, roundIndex, winner, isSetup, advanceType, onWinnerChan
   const renderParticipantRow = (participantKey) => {
     const participant = match[participantKey] || { id: -1, name: '', image: null };
     const selected = winner && winner.id === participant.id;
-    const canSelect = !isSetup && match.p1?.name && match.p2?.name;
+    const canSelect = !isSetup && (match.p1?.name || match.p1?.image) && (match.p2?.name || match.p2?.image);
     const isPictureMode = advanceType === 'picture';
     const isPictureSetupRow = isPictureMode && roundIndex === 0 && isSetup;
 

@@ -4,6 +4,7 @@ import './BracketBuddy.scss';
 
 const BracketBuddy = () => {
   const [numParticipants, setNumParticipants] = useState(4);
+  const [bracketType, setBracketType] = useState('single');
   const [advancementMethod, setAdvancementMethod] = useState('choice');
   const [setupMode, setSetupMode] = useState(true);
   const [participants, setParticipants] = useState(
@@ -58,6 +59,13 @@ const BracketBuddy = () => {
     setIsChampionModalOpen(false);
   }, []);
 
+  const handleBracketTypeChange = useCallback((type) => {
+    setBracketType(type);
+    setMatchWinners({});
+    setChampion(null);
+    setIsChampionModalOpen(false);
+  }, []);
+
   const handleSetupModeChange = useCallback(() => {
     setSetupMode((prev) => {
       if (!prev) {
@@ -79,14 +87,22 @@ const BracketBuddy = () => {
     setIsChampionModalOpen(false);
   }, []);
 
-  const handleWinnerChange = useCallback((round, matchIndex, winnerParticipant) => {
+  const handleWinnerChange = useCallback((round, matchIndex, winnerParticipant, matchId, isFinalMatch = false) => {
     setMatchWinners((prev) => {
       const next = { ...prev };
-      Object.keys(next).forEach((key) => {
-        const [r] = key.split('-').map(Number);
-        if (r > round) delete next[key];
+      const key = matchId || `${round}-${matchIndex}`;
+
+      Object.keys(next).forEach((existingKey) => {
+        if (bracketType === 'double') {
+          const [, stage] = existingKey.match(/^D-(\d+)-/) || [];
+          if (stage !== undefined && Number(stage) > round) delete next[existingKey];
+          return;
+        }
+
+        const [r] = existingKey.split('-').map(Number);
+        if (r > round) delete next[existingKey];
       });
-      const key = `${round}-${matchIndex}`;
+
       if (!winnerParticipant) {
         delete next[key];
       } else {
@@ -95,14 +111,17 @@ const BracketBuddy = () => {
       return next;
     });
 
-    if (round === totalRounds - 1 && winnerParticipant) {
+    if ((bracketType === 'double' && isFinalMatch && winnerParticipant) || (bracketType === 'single' && round === totalRounds - 1 && winnerParticipant)) {
       setChampion(winnerParticipant);
       setIsChampionModalOpen(true);
-    } else if (round === totalRounds - 1) {
+    } else if ((bracketType === 'double' && isFinalMatch) || (bracketType === 'single' && round === totalRounds - 1)) {
+      setChampion(null);
+      setIsChampionModalOpen(false);
+    } else if (bracketType === 'double') {
       setChampion(null);
       setIsChampionModalOpen(false);
     }
-  }, [totalRounds]);
+  }, [bracketType, totalRounds]);
 
   return (
     <div className="bracket-buddy">
@@ -137,6 +156,32 @@ const BracketBuddy = () => {
                       {num}
                     </label>
                   ))}
+                </div>
+              </div>
+
+              <div className="control-group">
+                <label>Bracket Type:</label>
+                <div className="radio-group">
+                  <label>
+                    <input
+                      type="radio"
+                      name="bracketType"
+                      value="single"
+                      checked={bracketType === 'single'}
+                      onChange={() => handleBracketTypeChange('single')}
+                    />
+                    Single
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="bracketType"
+                      value="double"
+                      checked={bracketType === 'double'}
+                      onChange={() => handleBracketTypeChange('double')}
+                    />
+                    Double
+                  </label>
                 </div>
               </div>
 
@@ -195,6 +240,7 @@ const BracketBuddy = () => {
           <Bracket
             participants={participants}
             setupMode={setupMode}
+            bracketType={bracketType}
             advanceType={advancementMethod}
             matchWinners={matchWinners}
             onParticipantUpdate={updateParticipant}

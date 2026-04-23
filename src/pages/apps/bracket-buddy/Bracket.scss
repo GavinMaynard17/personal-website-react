@@ -10,6 +10,66 @@
   min-width: 0;
 }
 
+.double-elim-layout {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 54px;
+  width: max-content;
+  min-width: 0;
+  margin: 25px auto 0;
+  padding-bottom: 40px;
+}
+
+.double-final-connectors {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.double-final-connectors path {
+  fill: none;
+  stroke: #d0d0d0;
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.double-elim-branches {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.double-bracket-section h2,
+.double-final-section h2 {
+  margin: 0 0 10px;
+  color: #111827;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.double-bracket-row {
+  margin: 0;
+  padding-bottom: 0;
+}
+
+.double-final-section {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 270px;
+}
+
+.double-final-match {
+  position: relative;
+  width: 260px;
+}
+
 .round {
   display: flex;
   flex-direction: column;
