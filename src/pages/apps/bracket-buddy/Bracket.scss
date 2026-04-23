@@ -1,13 +1,13 @@
 .bracket {
   display: flex;
   gap: 36px;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: flex-start;
-  margin-top: 25px;
+  margin: 25px auto 0;
   flex-wrap: nowrap;
   padding-bottom: 40px;
   width: max-content;
-  min-width: 100%;
+  min-width: 0;
 }
 
 .round {

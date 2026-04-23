@@ -143,9 +143,7 @@
 }
 
 .bracket-container {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  display: block;
   overflow-x: auto;
   overflow-y: visible;
   padding: 20px;
