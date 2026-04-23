@@ -20,7 +20,6 @@
 .controls {
   display: flex;
   flex-direction: column;
-  gap: 15px;
   width: 260px;
   padding: 18px;
   border: 1px solid #e5e7eb;
@@ -31,6 +30,50 @@
   left: 0;
   top: 20px;
   z-index: 2;
+}
+
+.controls.collapsed {
+  width: 148px;
+  padding: 10px 12px;
+}
+
+.controls-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.controls-header span {
+  color: #111827;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.controls-body {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.controls-toggle {
+  flex: 0 0 auto;
+  padding: 7px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #374151;
+  font-size: 0.85rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.controls-toggle:hover {
+  transform: translateY(-1px);
+  border-color: #9ca3af;
+  background: #f9fafb;
 }
 
 .control-group {
@@ -216,6 +259,10 @@
 
   .controls {
     position: static;
+    width: 100%;
+  }
+
+  .controls.collapsed {
     width: 100%;
   }
 

@@ -12,6 +12,7 @@ const BracketBuddy = () => {
   const [matchWinners, setMatchWinners] = useState({});
   const [champion, setChampion] = useState(null);
   const [isChampionModalOpen, setIsChampionModalOpen] = useState(false);
+  const [isControlsCollapsed, setIsControlsCollapsed] = useState(false);
 
   const totalRounds = Math.ceil(Math.log2(numParticipants));
 
@@ -106,72 +107,88 @@ const BracketBuddy = () => {
   return (
     <div className="bracket-buddy">
       <div className="bracket-workspace">
-        <aside className="controls">
-          <div className="control-group">
-            <label>Number of Participants:</label>
-            <div className="radio-group">
-              {[4, 8, 16, 32].map((num) => (
-                <label key={num}>
-                  <input
-                    type="radio"
-                    name="numParticipants"
-                    value={num}
-                    checked={numParticipants === num}
-                    onChange={() => handleNumParticipantsChange(num)}
-                  />
-                  {num}
-                </label>
-              ))}
-            </div>
-          </div>
-
-          <div className="control-group">
-            <label>Advancement Method:</label>
-            <div className="radio-group">
-              <label>
-                <input
-                  type="radio"
-                  name="advancementMethod"
-                  value="choice"
-                  checked={advancementMethod === 'choice'}
-                  onChange={() => handleAdvancementMethodChange('choice')}
-                />
-                By Choice
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="advancementMethod"
-                  value="picture"
-                  checked={advancementMethod === 'picture'}
-                  onChange={() => handleAdvancementMethodChange('picture')}
-                />
-                By Picture
-              </label>
-            </div>
-          </div>
-
-          <div className="control-group">
-            <label>
-              <input
-                type="checkbox"
-                checked={setupMode}
-                onChange={handleSetupModeChange}
-              />
-              Setup Mode
-            </label>
-          </div>
-
-          <div className="control-actions">
-            <button type="button" className="config-btn primary" onClick={handleNewBracket}>
-              New Bracket
+        <aside className={`controls ${isControlsCollapsed ? 'collapsed' : ''}`}>
+          <div className="controls-header">
+            <span>Setup</span>
+            <button
+              type="button"
+              className="controls-toggle"
+              aria-expanded={!isControlsCollapsed}
+              onClick={() => setIsControlsCollapsed((prev) => !prev)}
+            >
+              {isControlsCollapsed ? 'Show' : 'Hide'}
             </button>
-            {champion && (
-              <button type="button" className="config-btn secondary" onClick={openChampionModal}>
-                View Winner
-              </button>
-            )}
           </div>
+
+          {!isControlsCollapsed && (
+            <div className="controls-body">
+              <div className="control-group">
+                <label>Number of Participants:</label>
+                <div className="radio-group">
+                  {[4, 8, 16, 32].map((num) => (
+                    <label key={num}>
+                      <input
+                        type="radio"
+                        name="numParticipants"
+                        value={num}
+                        checked={numParticipants === num}
+                        onChange={() => handleNumParticipantsChange(num)}
+                      />
+                      {num}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div className="control-group">
+                <label>Advancement Method:</label>
+                <div className="radio-group">
+                  <label>
+                    <input
+                      type="radio"
+                      name="advancementMethod"
+                      value="choice"
+                      checked={advancementMethod === 'choice'}
+                      onChange={() => handleAdvancementMethodChange('choice')}
+                    />
+                    By Choice
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="advancementMethod"
+                      value="picture"
+                      checked={advancementMethod === 'picture'}
+                      onChange={() => handleAdvancementMethodChange('picture')}
+                    />
+                    By Picture
+                  </label>
+                </div>
+              </div>
+
+              <div className="control-group">
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={setupMode}
+                    onChange={handleSetupModeChange}
+                  />
+                  Setup Mode
+                </label>
+              </div>
+
+              <div className="control-actions">
+                <button type="button" className="config-btn primary" onClick={handleNewBracket}>
+                  New Bracket
+                </button>
+                {champion && (
+                  <button type="button" className="config-btn secondary" onClick={openChampionModal}>
+                    View Winner
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
         </aside>
 
         <div className="bracket-container">
